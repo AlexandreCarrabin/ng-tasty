@@ -30,8 +30,9 @@ angular.module('ngTasty.component.table', [
   },
   bindOnce: true,
   loadOnInit: false,
-  iconUp: 'fa fa-sort-up',
-  iconDown: 'fa fa-sort-down',
+  iconUp: 'glyphicon glyphicon-chevron-up',
+  iconDown: 'glyphicon glyphicon-chevron-down',
+  iconNoSort: 'glyphicon glyphicon-minus',
   bootstrapIcon: false,
   templateHeadUrl: 'template/table/head.html',
   templateUrl: 'template/table/pagination.html',
@@ -489,12 +490,14 @@ angular.module('ngTasty.component.table', [
       scope.bootstrapIcon = tastyTable.config.bootstrapIcon;
       scope.iconUp = tastyTable.config.iconUp;
       scope.iconDown = tastyTable.config.iconDown;
+      scope.iconNoSort = tastyTable.config.iconNoSort;
 
       listScopeToWatch = [
         'bindNotSortBy', 
         'bindBootstrapIcon', 
         'bindIconUp', 
         'bindIconDown',
+        'bindIconNoSort',
         'bindTemplateUrl'
       ];
       listScopeToWatch.forEach(function (scopeName) {
@@ -515,7 +518,7 @@ angular.module('ngTasty.component.table', [
       if (scope.templateUrl) {
         $http.get(scope.templateUrl, { cache: $templateCache })
         .success(function(templateContent) {
-          element.replaceWith($compile(templateContent)(scope));                
+          element.empty().append($compile(templateContent)(scope));
         });
       }
 
@@ -565,6 +568,8 @@ angular.module('ngTasty.component.table', [
             } else {
               isSorted = scope.iconUp;
             }
+          } else {
+            isSorted = scope.iconNoSort;
           }
           scope.columns.push({
             'key': column.key,
