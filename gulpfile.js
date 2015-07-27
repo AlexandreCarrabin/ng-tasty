@@ -80,7 +80,7 @@ gulp.task('html2js', function () {
   return gulp.src('template/**/*.html')
     .pipe(html2js({
       moduleName: function (file) {
-        var path = file.path.split('/'),
+        var path = file.path.split('\\'),
             folder = path[path.length - 2],
             fileName = path[path.length - 1].split('.')[0];
         var name = 'ngTasty.tpls.' + camelCase(folder);
